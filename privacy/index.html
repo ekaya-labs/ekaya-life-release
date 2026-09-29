@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ekaya Life 개인정보처리방침</title>
+<style>
+:root{color-scheme:light dark;--bg:#fff;--fg:#1c1c1e;--mut:#666;--line:#ddd;--ac:#8a6a1f}
+@media(prefers-color-scheme:dark){:root{--bg:#000;--fg:#eee;--mut:#aaa;--line:#333;--ac:#e8c878}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 system-ui,"Noto Sans KR",sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:1.6rem;color:var(--ac)}h2{font-size:1.2rem;margin-top:2rem;border-bottom:1px solid var(--line);padding-bottom:.3rem}
+code{background:rgba(128,128,128,.15);padding:1px 5px;border-radius:4px;font-size:.9em}
+.t{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}th{background:rgba(128,128,128,.12)}
+</style></head><body><main>
+<h1>Ekaya Life 개인정보처리방침</h1>
+<p>시행일: 2026-09-28</p>
+<p>Ekaya Life(이하 "앱")는 알람·타이머·할 일·Keep·복약·일기·라디오·음악·LAN 메신저 등을 한 앱에서 쓰는 개인용 도구입니다.</p>
+<p>이 문서는 앱이 어떤 정보를 어디에 저장하고, 언제 기기 밖으로 내보내는지 설명합니다.</p>
+<h2>1. 요약</h2>
+<ul>
+<li><strong>개발자는 사용자의 정보를 수집하지 않습니다.</strong> 개발자 서버가 없고, 계정·회원가입·로그인이 없으며, 광고·분석·크래시 리포팅 SDK를 넣지 않았습니다.</li>
+<li>사용자가 입력하거나 만든 데이터(알람, 메모, 복약 기록, 일기, 사진, 메시지 등)는 <strong>기기 안에만</strong> 저장됩니다.</li>
+<li>기기 밖으로 나가는 통신은 아래 3항의 경우뿐이며, 모두 사용자가 그 기능을 쓸 때만 일어납니다.</li>
+<li>음성 인식(AI 에이전트 음성 입력)은 <strong>기기 안(온디바이스) 인식을 요청</strong>합니다. 오프라인 음성 인식을 지원하지 않는 기기에서는 음성 입력을 사용할 수 없다고 안내합니다. 다만 Android 12 이하 기기는 기기의 음성 인식 서비스(Google)가 온디바이스 여부를 앱에 알려 주지 않아, 그 서비스가 음성을 서버에서 처리할 수 있습니다. 이때 음성은 앱이 아니라 기기의 음성 인식 서비스가 처리하며 앱 개발자는 받지 않습니다.</li>
+</ul>
+<h2>2. 기기 안에 저장하는 정보</h2>
+<p>모두 앱 전용 저장소에 있으며, 앱을 삭제하면 함께 지워집니다.</p>
+<div class=t><table><thead><tr><th>종류</th><th>내용</th></tr></thead><tbody><tr><td>알람·타이머·습관·할 일</td><td>이름·시각·반복 규칙·완료 기록</td></tr><tr><td>Keep</td><td>사용자가 공유하거나 붙여 넣은 링크·텍스트·이미지, 제목·태그·카테고리, 쿠폰 바코드(기기 안에서 인식)</td></tr><tr><td>복약</td><td>약 이름·용량·복용 일정·복용 기록·재고·메모(건강 관련 정보에 해당할 수 있습니다)</td></tr><tr><td>일기</td><td>마음 일기의 글과 기분 점수, 하루 한 장 사진과 캡션</td></tr><tr><td>어디 뒀더라·식료품</td><td>물건 이름·사진·집 안 위치 이름, 식품과 유통기한</td></tr><tr><td>라디오·음악</td><td>즐겨찾기, 사용자가 고른 기기 안의 음악 파일 정보(재생 목록·재생 횟수)</td></tr><tr><td>LAN 메신저·무전기</td><td>대화 내용, 주고받은 파일, 저장된 음성 메시지, 닉네임, 페어링 키</td></tr><tr><td>설정</td><td>테마·알림·홈 화면 구성 등 앱 설정</td></tr><tr><td>진단 로그</td><td>앱 동작 기록(아래 참고)</td></tr></tbody></table></div>
+<p><strong>진단 로그</strong>: 앱은 사후 점검을 위해 동작 기록을 기기 안에 최대 7일간 남깁니다. 기록에는 항목 ID·개수·오류 종류 같은 기술 정보만 남기며, 제목·이름·파일명·메시지 본문·IP 주소 같은 사용자 콘텐츠는 남기지 않도록 만들었습니다. 이 기록은 사용자가 설정의 로그 화면에서 "파일 로그 공유"를 직접 눌러야만 기기 밖으로 나갑니다.</p>
+<p><strong>Android 자동 백업</strong>: 앱은 Android의 자동 클라우드 백업(Google Drive 백업)을 사용하지 않도록 설정되어 있습니다.</p>
+<h2>3. 기기 밖으로 나가는 통신</h2>
+<p>아래 표에 없는 통신은 하지 않습니다.</p>
+<div class=t><table><thead><tr><th>언제</th><th>어디로</th><th>무엇을</th><th>비고</th></tr></thead><tbody><tr><td>Keep에 링크를 저장하거나 미리보기를 불러올 때(미리보기 자동 불러오기, 설정에서 끌 수 있음)</td><td>사용자가 저장한 <strong>링크의 대상 사이트</strong>와 그 사이트가 가리키는 이미지 서버</td><td>해당 주소로의 일반적인 웹 요청(기기의 IP 주소 포함)</td><td>사용자가 넣은 주소로만 요청합니다. 개발자를 거치지 않습니다. 사용자가 링크를 눌러 열면 기기의 브라우저가 그 사이트에 직접 접속합니다.</td></tr><tr><td>라디오에서 방송국을 검색·재생할 때</td><td>Radio Browser 공개 서버(<code>*.api.radio-browser.info</code>)</td><td>검색어(이름·장르·국가), 재생한 방송국 식별자</td><td>공개 커뮤니티 방송국 목록 서비스입니다.</td></tr><tr><td>라디오 방송을 재생할 때</td><td>각 방송사·스트리밍 업체의 서버</td><td>스트림 요청(기기의 IP 주소 포함)</td><td>아래 5항의 방송사 고지를 참고하세요.</td></tr><tr><td>AI 에이전트 모델을 처음 받을 때</td><td>Hugging Face(<code>huggingface.co</code>)</td><td>모델 파일 다운로드 요청(기기의 IP 주소 포함). 계정·토큰은 보내지 않습니다</td><td>사용자가 다운로드를 승인한 뒤에만 받습니다. 받은 뒤 추론은 기기 안에서 합니다.</td></tr><tr><td>쿠폰 이미지에서 바코드를 읽을 때</td><td>(기기 안 처리)</td><td>Google ML Kit 바코드 스캐너를 사용합니다. 이미지는 기기 밖으로 나가지 않습니다</td><td>ML Kit이 Google 안내에 따라 성능 진단 정보를 다룰 수 있습니다.</td></tr><tr><td>음성 입력을 쓸 때</td><td>(기기 안 처리)</td><td>Android 13 이상: 온디바이스 음성 인식으로 처리하며 서버로 보내지 않습니다. Android 12 이하: 기기의 음성 인식 서비스(Google)가 서버에서 처리할 수 있습니다</td><td>지원하지 않는 기기에서는 음성 입력이 꺼집니다.</td></tr></tbody></table></div>
+<h2>4. 같은 Wi-Fi(LAN) 안의 다른 기기와의 전송</h2>
+<p>메신저·무전기·기기 간 동기화·백업 보내기는 <strong>같은 네트워크 안의 다른 기기와 직접</strong> 통신합니다. 서버를 거치지 않습니다.</p>
+<ul>
+<li><strong>전송 범위</strong>: 대화 메시지, 파일, 음성(무전기), 동기화 대상 데이터(앱 데이터베이스 변경분, 미디어 파일, 일부 설정), 백업 파일을 사용자가 상대 기기와 연결했을 때 보냅니다. 기기를 찾기 위해 닉네임과 기기 식별자를 같은 네트워크에 알립니다(mDNS).</li>
+<li><strong>암호화 여부</strong>: LAN 전송 구간은 <strong>암호화되지 않은 평문(ws://)</strong> 입니다. 같은 네트워크에 있는 제3자가 전송을 엿볼 수 있으므로, 신뢰할 수 있는 네트워크(집·개인 핫스팟)에서만 쓰기를 권장합니다.</li>
+<li><strong>연결 허용 범위</strong>: 새로 설치한 앱은 페어링하지 않은(인증되지 않은) 기기의 연결을 <strong>기본으로 허용하지 않습니다.</strong> 이전 버전에서 이미 메신저를 쓰던 설치본은 업데이트 뒤에도 기존 설정을 그대로 유지합니다. 이 허용 여부는 설정의 「네트워크」에서 언제든 바꿀 수 있습니다.</li>
+<li>상대 기기로 넘어간 데이터는 상대 기기의 소유자가 관리하며, 앱이 되돌릴 수 없습니다.</li>
+</ul>
+<h2>5. 방송사 스트림에 관한 고지</h2>
+<p>방송사가 공개한 스트림 링크를 재생합니다. 콘텐츠 권리는 각 방송사에 있으며 요청 시 삭제합니다.</p>
+<h2>6. 앱이 요청하는 권한과 쓰임</h2>
+<div class=t><table><thead><tr><th>권한</th><th>쓰임</th></tr></thead><tbody><tr><td>마이크</td><td>AI 에이전트 음성 입력(온디바이스), 무전기 음성</td></tr><tr><td>알림</td><td>알람·타이머·복약·일기 알림</td></tr><tr><td>정확한 알람·전체 화면 알림</td><td>정한 시각에 울리는 알람과 알람 화면</td></tr><tr><td>음악·오디오 파일 읽기</td><td>사용자가 고른 기기 안의 음악을 재생</td></tr><tr><td>인터넷·Wi-Fi 멀티캐스트</td><td>위 3·4항의 통신, 같은 네트워크의 기기 찾기</td></tr><tr><td>백그라운드 재생(포그라운드 서비스)</td><td>라디오·음악 재생, AI 모델 다운로드 진행 표시</td></tr></tbody></table></div>
+<p>카메라 권한은 요청하지 않습니다. 사진 촬영은 기기의 카메라 앱을 통해 이루어지고, 앱은 사용자가 고른 사진만 받습니다.</p>
+<p>위치·연락처·문자·통화 기록·캘린더는 사용하지 않습니다.</p>
+<h2>7. 정보의 삭제</h2>
+<ul>
+<li><strong>앱 안에서 삭제</strong>: 각 항목을 지우면 기기에서 지워집니다. 앱 설정의 백업 화면에서 복원 파일을 만들 수 있고, 만든 백업 파일(zip)은 사용자가 정한 위치에 저장됩니다.</li>
+<li><strong>앱 삭제</strong>: 앱을 삭제하면 앱 전용 저장소의 모든 데이터가 지워집니다.</li>
+<li><strong>직접 관리하는 파일</strong>: 사용자가 내보낸 백업 파일, LAN으로 다른 기기에 보낸 파일, 다른 앱으로 공유한 내용은 사용자가 직접 지워야 합니다.</li>
+<li>개발자는 사용자의 정보를 보관하지 않으므로, 개발자에게 삭제를 요청해야 지워지는 정보는 없습니다.</li>
+</ul>
+<h2>8. 아동의 정보</h2>
+<p>앱은 어린이를 대상으로 하지 않으며, 연령을 확인하거나 아동의 정보를 따로 수집하지 않습니다.</p>
+<h2>9. 방침의 변경</h2>
+<p>방침이 바뀌면 이 문서를 고치고 시행일을 갱신합니다. 앱이 새로운 정보를 수집하거나 새로운 곳으로 보내게 되는 변경은 앱 업데이트 안내에 함께 적습니다.</p>
+<h2>10. 문의</h2>
+<p>개인정보 관련 문의: ekaya.jang@gmail.com</p>
+<p>방송사 스트림 삭제 요청도 위 연락처로 받습니다.</p>
+</main></body></html>
