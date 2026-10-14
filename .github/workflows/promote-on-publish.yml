@@ -1,0 +1,82 @@
+name: Promote published release to latest pointer
+
+# 사람이 vX.Y.Z Draft 릴리스를 Publish하는 순간, 그 버전의 자산을 Windows 앱의 업데이트 확인이
+# 읽는 고정 릴리스 `latest`로 복제한다. 앱은 .../releases/download/latest/latest.json 을 읽는다.
+# → "Publish 클릭" 하나가 게이트이고 포인터 갱신은 자동이다.
+#
+# 소스 레포(ekaya-life)의 Gitea release.yml `promote_tag` 수동 경로와 같은 검증을 한다.
+# 이쪽이 실패했을 때의 안전망으로 그 수동 경로는 그대로 남아 있다.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '포인터로 올릴 버전 태그 (예: v0.2.7)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-latest
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    # 포인터 릴리스(latest) 자신의 게시로 재귀 실행되는 것을 막는다.
+    if: ${{ (github.event.release.tag_name || inputs.tag) != 'latest' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # gh release 하위명령이 대상 레포를 git 원격에서 추론한다.
+      - uses: actions/checkout@v4
+      - name: Verify and sync onto latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name || inputs.tag }}
+        run: |
+          set -euo pipefail
+
+          [[ "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)(-b[0-9]+)?$ ]] || { echo "skip: '$TAG' 은 버전 태그가 아님"; exit 0; }
+          version="${BASH_REMATCH[1]}"
+
+          # latest.json의 URL은 버전 릴리스를 가리킨다 — Draft면 404라 승격하지 않는다.
+          draft="$(gh release view "$TAG" --json isDraft --jq .isDraft)"
+          [ "$draft" = "false" ] || { echo "::error::$TAG 가 아직 Draft입니다 — 게시한 뒤 다시 실행하세요."; exit 1; }
+
+          names="$(gh release view "$TAG" --json assets --jq '.assets[].name')"
+          if grep -qiE '\.(apk|aab)$' <<<"$names"; then echo "::error::공개 릴리스에 APK/AAB가 있습니다 — 승격하지 않습니다."; exit 1; fi
+          missing=()
+          for e in "EkayaLife_Setup_v$version.exe" "EkayaLife_v${version}_Portable_x64.zip" "latest.json" "SHA256SUMS"; do
+            grep -qxF "$e" <<<"$names" || missing+=("$e")
+          done
+          [ "${#missing[@]}" -eq 0 ] || { echo "::error::$TAG 에 빠진 자산: ${missing[*]}"; exit 1; }
+
+          workdir="$(mktemp -d)"
+          gh release download "$TAG" --dir "$workdir"
+
+          # 올리기 전에 latest.json이 이 버전·이 태그를 가리키는지 본다. 어긋난 채로 포인터를 만들면
+          # 설치된 앱이 잘못된 파일을 내려받으려 한다.
+          node -e '
+            const j = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8").replace(new RegExp("^"+String.fromCharCode(65279)), ""));
+            const [ver, tag] = process.argv.slice(2);
+            const w = (j.platforms || {})["windows-x86_64"] || {};
+            if (j.version !== ver) { console.error(`latest.json version ${j.version} != ${ver}`); process.exit(1); }
+            for (const u of [w.installer_url, w.portable_url]) {
+              if (!u || !u.includes(`/releases/download/${tag}/`)) { console.error(`URL이 ${tag}를 가리키지 않음: ${u}`); process.exit(1); }
+            }
+          ' "$workdir/latest.json" "$version" "$TAG"
+
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest "$workdir"/* \
+            --target main \
+            --title "Ekaya Life latest (auto-update pointer → ${TAG})" \
+            --notes "자동 업데이트 endpoint 전용 고정 릴리스입니다. 배포 노트는 ${TAG} 릴리스를 참고하세요."
+
+          # 포인터가 실제로 쓸 수 있는 상태인지 마지막에 한 번 더 확인한다(조용한 성공 금지).
+          got="$(gh release download latest --pattern latest.json --output - | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s.replace(new RegExp("^"+String.fromCharCode(65279)),"")).version))')"
+          [ "$got" = "$version" ] || { echo "::error::승격 뒤 latest.json 버전 $got != $version"; exit 1; }
+          echo "::notice::latest 포인터 → $TAG (latest.json version $got)"
